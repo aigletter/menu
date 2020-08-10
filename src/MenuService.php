@@ -12,6 +12,12 @@ class MenuService
 {
     protected $menus = [];
 
+    /**
+     * @param $name
+     * @param callable|null $callback
+     *
+     * @return MenuInterface
+     */
     public function makeMenu($name, callable $callback = null): MenuInterface
     {
         $builder = new MenuBuilder();
@@ -27,11 +33,19 @@ class MenuService
         return $menu;
     }
 
-    public function getMenu($name)
+    /**
+     * @param $name
+     *
+     * @return Menu
+     */
+    public function getMenu($name): Menu
     {
         return $this->menus[$name] ?? null;
     }
 
+    /**
+     * @return array
+     */
     public function getMenus()
     {
         return $this->menus;

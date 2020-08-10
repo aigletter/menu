@@ -8,5 +8,5 @@ use Aigletter\Menu\Entities\Menu;
 
 interface MenuRendererInterface
 {
-    public function toHtml(Menu $menu);
+    public function render(Menu $menu): string;
 }

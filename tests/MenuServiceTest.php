@@ -29,13 +29,5 @@ class MenuServiceTest extends TestCase
         $this->assertInstanceOf(Menu::class, $menu);
     }
 
-    public function testMenuBuilder()
-    {
-        $menuService = new MenuService();
-        $menu = $menuService->makeMenu('test', function(MenuBuilder $builder) {
-            $builder->addItem('test', 'Test', '/test');
-        });
 
-        $this->assertCount(1, $menu->getItems());
-    }
 }

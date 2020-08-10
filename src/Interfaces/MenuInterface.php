@@ -11,4 +11,11 @@ interface MenuInterface
     public function addItem(MenuItem $item): void;
 
     public function getItems(): array;
+
+    /**
+     * @todo
+     *
+     * @return string
+     */
+    public function render(): string;
 }

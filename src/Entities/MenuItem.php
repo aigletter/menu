@@ -16,9 +16,14 @@ class MenuItem implements MenuItemInterface
 
     protected $attributes = [];
 
-    public function __construct($id, $title, $url, $attributes = [])
+    public function __construct($title, $url, $attributes = [])
     {
-        $this->id = $id;
+        // TODO
+        if (!isset($attributes['id'])) {
+            $attributes['id'] = uniqid();
+        }
+
+        $this->id = $attributes['id'];
         $this->title = $title;
         $this->url = $url;
         $this->attributes = $attributes;

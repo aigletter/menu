@@ -31,7 +31,7 @@ class Menu implements MenuInterface
      * @param string $name
      * @param MenuRendererInterface $renderer
      */
-    public function __construct(string $name, MenuRendererInterface $renderer)
+    public function __construct(string $name, MenuRendererInterface $renderer = null)
     {
         $this->name = $name;
         $this->renderer = $renderer;
@@ -57,8 +57,25 @@ class Menu implements MenuInterface
         return $this->items;
     }
 
-    public function render()
+    /**
+     * @return string
+     *
+     * @throws \Exception
+     */
+    public function render(): string
     {
-        return $this->renderer->toHtml($this);
+        if ($this->renderer === null) {
+            throw new \Exception('Renderer is not defined');
+        }
+
+        return $this->renderer->render($this);
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

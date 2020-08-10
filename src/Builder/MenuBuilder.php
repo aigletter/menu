@@ -6,7 +6,7 @@ namespace Aigletter\Menu\Builder;
 
 use Aigletter\Menu\Entities\Menu;
 use Aigletter\Menu\Entities\MenuItem;
-use Aigletter\Menu\Render\MenuUlRenderer;
+use Aigletter\Menu\Render\MenuHtmlRenderer;
 use Aigletter\Menu\Interfaces\MenuRendererInterface;
 
 class MenuBuilder
@@ -26,6 +26,12 @@ class MenuBuilder
      */
     protected $items = [];
 
+    public function __construct()
+    {
+        // Default renderer
+        $this->renderer = new MenuHtmlRenderer();
+    }
+
     /**
      * @param string $name
      *
@@ -41,13 +47,15 @@ class MenuBuilder
      * @param $name
      * @param $title
      * @param $url
-     * @param array $options
+     * @param array $attributes
      *
      * @return $this
      */
-    public function addItem($name, $title, $url, $options = [])
+    public function addItem($title, $url, $attributes = [])
     {
-        $this->items[$name] = new MenuItem($name, $title, $url, $options);
+        $this->items[] = [$title, $url, $attributes,];
+        /*$item = new MenuItem($title, $url, $attributes);
+        $this->items[$item->getId()] = $item;*/
 
         return $this;
     }
@@ -57,13 +65,11 @@ class MenuBuilder
      */
     public function build()
     {
-        $renderer = $this->renderer ?? new MenuUlRenderer();
-
-        $menu = new Menu($this->name, $renderer);
+        $menu = new Menu($this->name, $this->renderer);
         foreach ($this->items as $item) {
-            //$menuItem = new MenuItem($item['name'], $item['title'], $item['url'], $item['options']);
-            //$menu->addItem($menuItem);
-            $menu->addItem($item);
+            $menuItem = new MenuItem(...$item);
+            $menu->addItem($menuItem);
+            //$menu->addItem($item);
         }
 
         return $menu;
@@ -77,6 +83,51 @@ class MenuBuilder
     public function setRenderer(MenuRendererInterface $renderer)
     {
         $this->renderer = $renderer;
+
+        return $this;
+    }
+
+    /**
+     * @todo
+     *
+     * @param $tagName
+     * @param array $attributes
+     *
+     * @return MenuBuilder
+     */
+    public function setMenuWrapper($tagName, $attributes = [])
+    {
+        $this->renderer->setMenuWrapper($tagName, $attributes);
+
+        return $this;
+    }
+
+    /**
+     * @todo
+     *
+     * @param $tagName
+     * @param array $attributes
+     *
+     * @return MenuBuilder
+     */
+    public function setItemWrapper($tagName, $attributes = [])
+    {
+        $this->renderer->setItemWrapper($tagName, $attributes);
+
+        return $this;
+    }
+
+    /**
+     * @todo
+     *
+     * @param array $attributes
+     *
+     * @return $this
+     */
+    public function setLinkAttributes(array $attributes)
+    {
+        $this->renderer->setLinkAttributes($attributes);
+
         return $this;
     }
 }
