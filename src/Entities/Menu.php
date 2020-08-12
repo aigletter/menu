@@ -57,6 +57,11 @@ class Menu implements MenuInterface
         return $this->items;
     }
 
+    public function getItem($id): ?MenuItemInterface
+    {
+        return $this->items[$id] ?? null;
+    }
+
     /**
      * @return string
      *

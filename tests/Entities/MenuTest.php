@@ -15,7 +15,7 @@ class MenuTest extends TestCase
     public function testAddItem()
     {
         $menu = new Menu('test', new MenuHtmlRenderer());
-        $item = new MenuItem('Test', 'hello');
+        $item = new MenuItem('test', 'Test', 'hello');
         $menu->addItem($item);
 
         $this->assertCount(1, $menu->getItems());

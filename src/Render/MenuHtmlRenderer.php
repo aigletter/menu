@@ -6,18 +6,38 @@ namespace Aigletter\Menu\Render;
 
 use Aigletter\Menu\Entities\Menu;
 use Aigletter\Menu\Html\HtmlElement;
+use Aigletter\Menu\Interfaces\MenuItemInterface;
 use Aigletter\Menu\Interfaces\MenuRendererInterface;
 
 class MenuHtmlRenderer implements MenuRendererInterface
 {
+    /**
+     * @todo Move to config
+     * @var array
+     */
     protected $menuWrapper = [
         'tag' => 'ul',
         'attributes' => [],
     ];
 
+    /**
+     * @todo Move to config
+     * @var array
+     */
     protected $itemWrapper = [
         'tag' => 'li',
         'attributes' => [],
+    ];
+
+    /**
+     * @todo Move to config
+     * @var array
+     */
+    protected $submenuWrapper = [
+        'tag' => 'ul',
+        'attributes' => [
+            'class' => 'submenu'
+        ],
     ];
 
     protected $linkAttributes = [];
@@ -89,18 +109,44 @@ class MenuHtmlRenderer implements MenuRendererInterface
         ], $this->menuWrapper['attributes']));
 
         foreach ($menu->getItems() as $item) {
-            $itemElement = new HtmlElement(
-                $this->itemWrapper['tag'],
-                array_merge($this->itemWrapper['attributes'], $item->getAttributes())
-            );
-            $linkElement = new HtmlElement('a', array_merge([
-                'href' => $item->getUrl()
-            ], $this->linkAttributes));
-            $linkElement->addText($item->getTitle());
-            $itemElement->addChild($linkElement);
+            $itemElement = $this->makeItemElement($item);
             $wrapperElement->addChild($itemElement);
         }
 
         return $wrapperElement->render();
+    }
+
+    protected function makeItemElement(MenuItemInterface $item)
+    {
+        //$test = str_replace('_', '', ucwords($item->getId(), '_'));
+        $attributes = $item->getAttributes();
+        if (empty($attributes['id'])) {
+            $attributes['id'] = strtolower(
+                preg_replace(['/[A-Z]([A-Z](?![a-z]))*/', '/_/'], ['-$0', '-'], $item->getId())
+            );
+        }
+        $itemElement = new HtmlElement(
+            $this->itemWrapper['tag'],
+            array_merge($this->itemWrapper['attributes'], $attributes),
+        );
+        $linkElement = new HtmlElement('a', array_merge([
+            'href' => $item->getUrl()
+        ], $this->linkAttributes));
+        $linkElement->addText($item->getTitle());
+        $itemElement->addChild($linkElement);
+
+        if ($children = $item->getChildren()) {
+            // TODO Add attributes
+            $childrenWrapper = new HtmlElement(
+                $this->submenuWrapper['tag'],
+                $this->submenuWrapper['attributes']
+            );
+            foreach ($children as $child) {
+                $childrenWrapper->addChild($this->makeItemElement($child));
+            }
+            $itemElement->addChild($childrenWrapper);
+        }
+
+        return $itemElement;
     }
 }

@@ -4,13 +4,34 @@
 namespace Aigletter\Menu;
 
 
-use Aigletter\Menu\Builder\MenuBuilder;
 use Aigletter\Menu\Entities\Menu;
 use Aigletter\Menu\Interfaces\MenuInterface;
+use Aigletter\Menu\Builder\MenuBuilder;
 
 class MenuService
 {
     protected $menus = [];
+
+    /**
+     * @var MenuBuilder|null
+     */
+    protected $builder;
+
+    /**
+     * MenuService constructor.
+     *
+     * @param MenuBuilder|null $builder
+     * @todo delete default value
+     */
+    public function __construct(MenuBuilder $builder = null)
+    {
+        // TODO delete
+        if (empty($builder)) {
+            $builder = new MenuBuilder();
+        }
+
+        $this->builder = $builder;
+    }
 
     /**
      * @param $name
@@ -20,14 +41,11 @@ class MenuService
      */
     public function makeMenu($name, callable $callback = null): MenuInterface
     {
-        $builder = new MenuBuilder();
-        $builder->setName($name);
+        $builder = $this->newBuilder();
 
-        if ($callback !== null) {
-            $callback($builder);
-        }
+        $builder->newMenu($name, $callback);
 
-        $menu = $builder->build();
+        $menu = $builder->getMenu();
         $this->menus[$name] = $menu;
 
         return $menu;
@@ -46,8 +64,21 @@ class MenuService
     /**
      * @return array
      */
-    public function getMenus()
+    public function getMenus(): array
     {
         return $this->menus;
+    }
+
+    /**
+     * @param $name
+     * @param callable|null $callback
+     *
+     * @return MenuInterface
+     */
+    public function newBuilder(): MenuBuilder
+    {
+        $builder = clone $this->builder;
+
+        return $builder;
     }
 }

@@ -4,6 +4,7 @@
 namespace Aigletter\Menu\Entities;
 
 
+use Aigletter\Menu\Interfaces\MenuInterface;
 use Aigletter\Menu\Interfaces\MenuItemInterface;
 
 class MenuItem implements MenuItemInterface
@@ -16,14 +17,19 @@ class MenuItem implements MenuItemInterface
 
     protected $attributes = [];
 
-    public function __construct($title, $url, $attributes = [])
+    protected $children = [];
+
+    protected $submenu;
+
+    public function __construct($id, $title, $url, $attributes = [])
     {
         // TODO
-        if (!isset($attributes['id'])) {
+        /*if (!isset($attributes['id'])) {
             $attributes['id'] = uniqid();
-        }
+        }*/
 
-        $this->id = $attributes['id'];
+        //$this->id = $attributes['id'];
+        $this->id = $id;
         $this->title = $title;
         $this->url = $url;
         $this->attributes = $attributes;
@@ -82,5 +88,30 @@ class MenuItem implements MenuItemInterface
     public function setAttributes(array $attributes): void
     {
         $this->attributes = $attributes;
+    }
+
+    public function addChild(MenuItemInterface $item): void
+    {
+        $this->children[] = $item;
+    }
+
+    public function getChildren(): array
+    {
+        return $this->children;
+    }
+
+    public function setSubmenu(MenuInterface $submenu): void
+    {
+        $this->submenu = $submenu;
+    }
+
+    public function getSubmenu(): MenuInterface
+    {
+        return $this->submenu;
+    }
+
+    public function hasSubmenu(): bool
+    {
+        return isset($this->submenu);
     }
 }

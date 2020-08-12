@@ -11,7 +11,8 @@ require '../vendor/autoload.php';
 
 $service = new MenuService();
 
-$menu = $service->makeMenu('top', function(MenuBuilder $builder) {
+//$menu = $service->makeMenu('top', function(MenuBuilder $builder) {
+$menu = MenuBuilder::makeMenu('top', function(MenuBuilder $builder) {
     $builder
         ->setMenuWrapper('ul', ['class' => 'nav'])
         ->setItemWrapper('li', ['class' => 'nav-item'])
