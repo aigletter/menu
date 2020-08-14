@@ -41,6 +41,10 @@ class MenuService
      */
     public function makeMenu($name, callable $callback = null): MenuInterface
     {
+        if ($this->getMenu($name)) {
+            throw new \Exception('Menu with name' . $name . ' already exist');
+        }
+
         $builder = $this->newBuilder();
 
         $builder->newMenu($name, $callback);
@@ -56,7 +60,7 @@ class MenuService
      *
      * @return Menu
      */
-    public function getMenu($name): Menu
+    public function getMenu($name): ?Menu
     {
         return $this->menus[$name] ?? null;
     }

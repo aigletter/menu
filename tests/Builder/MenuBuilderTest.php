@@ -34,8 +34,8 @@ class MenuBuilderTest extends TestCase
     {
         $builder = new MenuBuilder();
         $builder->newMenu('test');
-        $builder->addItem('test', 'Test', '/test');
-        $builder->addSubmenu('test', 'submenu');
+        $builder->addItem('test', 'Test', '/test')
+            ->addSubmenu('submenu');
         $menu = $builder->getMenu();
 
         $this->assertTrue($menu->getItem('test')->hasSubmenu());
@@ -46,7 +46,7 @@ class MenuBuilderTest extends TestCase
         $builder = new MenuBuilder();
         $builder->newMenu('test', function(MenuBuilder $builder){
             $builder->addItem('test', 'Test', '/test');
-            $builder->addSubmenu('test', 'submenu', function(MenuBuilder $builder){
+            $builder->addSubmenu('submenu', function(MenuBuilder $builder){
                 $builder->addItem('submenuItemOne', 'Submenu Item One', '/submenu-item-one');
                 $builder->addItem('submenuItemTwo', 'Submenu Item Two', '/submenu-item-two');
             });

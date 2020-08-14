@@ -8,6 +8,11 @@ use Aigletter\Menu\Interfaces\MenuInterface;
 use Aigletter\Menu\Interfaces\MenuItemInterface;
 use Aigletter\Menu\Interfaces\MenuRendererInterface;
 
+/**
+ * Class Menu
+ *
+ * @package Aigletter\Menu\Entities
+ */
 class Menu implements MenuInterface
 {
     /**
@@ -31,15 +36,15 @@ class Menu implements MenuInterface
      * @param string $name
      * @param MenuRendererInterface $renderer
      */
-    public function __construct(string $name, MenuRendererInterface $renderer = null)
+    public function __construct(string $name)
     {
         $this->name = $name;
-        $this->renderer = $renderer;
     }
 
     /**
      * @param $title
      * @param $url
+     *
      * @param array $options
      *
      * @return MenuItemInterface
@@ -57,23 +62,14 @@ class Menu implements MenuInterface
         return $this->items;
     }
 
+    /**
+     * @param $id
+     *
+     * @return MenuItemInterface|null
+     */
     public function getItem($id): ?MenuItemInterface
     {
         return $this->items[$id] ?? null;
-    }
-
-    /**
-     * @return string
-     *
-     * @throws \Exception
-     */
-    public function render(): string
-    {
-        if ($this->renderer === null) {
-            throw new \Exception('Renderer is not defined');
-        }
-
-        return $this->renderer->render($this);
     }
 
     /**

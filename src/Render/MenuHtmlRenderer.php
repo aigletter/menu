@@ -6,6 +6,7 @@ namespace Aigletter\Menu\Render;
 
 use Aigletter\Menu\Entities\Menu;
 use Aigletter\Menu\Html\HtmlElement;
+use Aigletter\Menu\Interfaces\MenuInterface;
 use Aigletter\Menu\Interfaces\MenuItemInterface;
 use Aigletter\Menu\Interfaces\MenuRendererInterface;
 
@@ -94,6 +95,14 @@ class MenuHtmlRenderer implements MenuRendererInterface
         ];
     }
 
+    public function setSubmenuWrapper(string $tagName, array $attributes = null)
+    {
+        $this->submenuWrapper = [
+            'tag' => $tagName,
+            'attributes' => $attributes,
+        ];
+    }
+
     /**
      * @param array $linkAttributes
      */
@@ -102,18 +111,42 @@ class MenuHtmlRenderer implements MenuRendererInterface
         $this->linkAttributes = $linkAttributes;
     }
 
-    public function render(Menu $menu): string
+    public function render(MenuInterface $menu): string
     {
-        $wrapperElement = new HtmlElement($this->menuWrapper['tag'], array_merge([
-            'id' => $menu->getName()
-        ], $this->menuWrapper['attributes']));
+        $wrapperElement = $this->makeMenuElement($menu);
+
+        return $wrapperElement->render();
+    }
+
+    /**
+     * @todo refactoring parameter submenu
+     *
+     * @param MenuInterface $menu
+     * @param bool $submenu
+     *
+     * @return HtmlElement
+     */
+    protected function makeMenuElement(MenuInterface $menu, $submenu = false)
+    {
+        $defaultAttributes = [];
+
+        if (!$submenu) {
+            $defaultAttributes['id'] = $menu->getName();
+        } else {
+            $defaultAttributes['class'] = $this->submenuWrapper['attributes']['class'] ?? 'submenu';
+        }
+
+        $menuElement = new HtmlElement(
+            $this->menuWrapper['tag'],
+            array_merge($defaultAttributes, $this->menuWrapper['attributes'])
+        );
 
         foreach ($menu->getItems() as $item) {
             $itemElement = $this->makeItemElement($item);
-            $wrapperElement->addChild($itemElement);
+            $menuElement->addChild($itemElement);
         }
 
-        return $wrapperElement->render();
+        return $menuElement;
     }
 
     protected function makeItemElement(MenuItemInterface $item)
@@ -135,8 +168,10 @@ class MenuHtmlRenderer implements MenuRendererInterface
         $linkElement->addText($item->getTitle());
         $itemElement->addChild($linkElement);
 
-        if ($children = $item->getChildren()) {
-            // TODO Add attributes
+        if ($submenu = $item->getSubmenu()) {
+            $submenuElement = $this->makeMenuElement($submenu, true);
+            $itemElement->addChild($submenuElement);
+            /*// TODO Add attributes
             $childrenWrapper = new HtmlElement(
                 $this->submenuWrapper['tag'],
                 $this->submenuWrapper['attributes']
@@ -144,7 +179,7 @@ class MenuHtmlRenderer implements MenuRendererInterface
             foreach ($children as $child) {
                 $childrenWrapper->addChild($this->makeItemElement($child));
             }
-            $itemElement->addChild($childrenWrapper);
+            $itemElement->addChild($childrenWrapper);*/
         }
 
         return $itemElement;

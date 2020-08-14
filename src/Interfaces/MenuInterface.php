@@ -12,14 +12,10 @@ interface MenuInterface
 
     public function addItem(MenuItem $item): void;
 
+    /**
+     * @return MenuItemInterface[]
+     */
     public function getItems(): array;
 
     public function getItem($id): ?MenuItemInterface;
-
-    /**
-     * @todo
-     *
-     * @return string
-     */
-    public function render(): string;
 }

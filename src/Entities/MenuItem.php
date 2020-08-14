@@ -7,20 +7,48 @@ namespace Aigletter\Menu\Entities;
 use Aigletter\Menu\Interfaces\MenuInterface;
 use Aigletter\Menu\Interfaces\MenuItemInterface;
 
+/**
+ * Class MenuItem
+ *
+ * @package Aigletter\Menu\Entities
+ */
 class MenuItem implements MenuItemInterface
 {
+    /**
+     * @var string
+     */
     protected $id;
 
+    /**
+     * @var string
+     */
     protected $title;
 
+    /**
+     * @var string
+     */
     protected $url;
 
+    /**
+     * @var array
+     */
     protected $attributes = [];
 
-    protected $children = [];
+    //protected $children = [];
 
+    /**
+     * @var MenuInterface|null
+     */
     protected $submenu;
 
+    /**
+     * MenuItem constructor.
+     *
+     * @param $id
+     * @param $title
+     * @param $url
+     * @param array $attributes
+     */
     public function __construct($id, $title, $url, $attributes = [])
     {
         // TODO
@@ -35,25 +63,34 @@ class MenuItem implements MenuItemInterface
         $this->attributes = $attributes;
     }
 
+    /**
+     * @return string
+     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
+    /**
+     * @return string
+     */
     public function getUrl(): string
     {
         return $this->url;
     }
 
-    public function getId()
+    /**
+     * @return string
+     */
+    public function getId(): string
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $title
+     * @param string $title
      */
-    public function setTitle($title): void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -61,7 +98,7 @@ class MenuItem implements MenuItemInterface
     /**
      * @param mixed $id
      */
-    public function setId($id): void
+    public function setId(string $id): void
     {
         $this->id = $id;
     }
@@ -90,7 +127,7 @@ class MenuItem implements MenuItemInterface
         $this->attributes = $attributes;
     }
 
-    public function addChild(MenuItemInterface $item): void
+    /*public function addChild(MenuItemInterface $item): void
     {
         $this->children[] = $item;
     }
@@ -98,14 +135,14 @@ class MenuItem implements MenuItemInterface
     public function getChildren(): array
     {
         return $this->children;
-    }
+    }*/
 
     public function setSubmenu(MenuInterface $submenu): void
     {
         $this->submenu = $submenu;
     }
 
-    public function getSubmenu(): MenuInterface
+    public function getSubmenu(): ?MenuInterface
     {
         return $this->submenu;
     }

@@ -14,7 +14,7 @@ class MenuTest extends TestCase
 {
     public function testAddItem()
     {
-        $menu = new Menu('test', new MenuHtmlRenderer());
+        $menu = new Menu('test');
         $item = new MenuItem('test', 'Test', 'hello');
         $menu->addItem($item);
 
