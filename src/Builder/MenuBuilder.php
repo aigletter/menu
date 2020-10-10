@@ -112,12 +112,12 @@ class MenuBuilder
      *
      * @return MenuBuilder
      */
-    public function setRenderer(MenuRendererInterface $renderer)
+    /*public function setRenderer(MenuRendererInterface $renderer)
     {
         $this->renderer = $renderer;
 
         return $this;
-    }
+    }*/
 
     /**
      * @todo
@@ -129,7 +129,7 @@ class MenuBuilder
      */
     public function setMenuWrapper(string $tagName, array $attributes = [])
     {
-        $this->renderer->setMenuWrapper($tagName, $attributes);
+        $this->renderer->setMenuWrapperConfig($tagName, $attributes);
 
         return $this;
     }
@@ -142,12 +142,12 @@ class MenuBuilder
      *
      * @return MenuBuilder
      */
-    public function setItemWrapper(string $tagName, array $attributes = [])
+    /*public function setItemWrapper(string $tagName, array $attributes = [])
     {
-        $this->renderer->setItemWrapper($tagName, $attributes);
+        $this->renderer->setItemElementConfig($tagName, $attributes);
 
         return $this;
-    }
+    }*/
 
     /**
      * @todo
@@ -156,12 +156,12 @@ class MenuBuilder
      *
      * @return $this
      */
-    public function setLinkAttributes(array $attributes)
+    /*public function setLinkAttributes(array $attributes)
     {
-        $this->renderer->setLinkAttributes($attributes);
+        $this->renderer->setLinkElementAttributes($attributes);
 
         return $this;
-    }
+    }*/
 
     /**
      * @param string $itemId

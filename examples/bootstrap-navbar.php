@@ -1,6 +1,8 @@
 <?php
 
-ini_set('display_errors', '1');
+/**
+ * Bootstrap navbar
+ */
 
 use Aigletter\Menu\Builder\MenuBuilder;
 use Aigletter\Menu\MenuService;

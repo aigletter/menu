@@ -20,9 +20,9 @@ $menu = $service->makeMenu('top', function(MenuBuilder $builder) {
 
 //echo $menu->render();
 $renderer = new MenuHtmlRenderer();
-$renderer->setMenuWrapper('ul', ['class' => 'nav']);
-$renderer->setItemWrapper('li', ['class' => 'nav-item']);
-$renderer->setLinkAttributes(['class' => 'nav-link']);
+$renderer->setMenuWrapperConfig('ul', ['class' => 'nav']);
+$renderer->setItemElementConfig('li', ['class' => 'nav-item']);
+$renderer->setLinkElementAttributes(['class' => 'nav-link']);
 
 ?>
 

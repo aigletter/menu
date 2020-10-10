@@ -4,7 +4,6 @@
 namespace Aigletter\Menu;
 
 
-use Aigletter\Menu\Entities\Menu;
 use Aigletter\Menu\Interfaces\MenuInterface;
 use Aigletter\Menu\Builder\MenuBuilder;
 
@@ -58,9 +57,9 @@ class MenuService
     /**
      * @param $name
      *
-     * @return Menu
+     * @return MenuInterface
      */
-    public function getMenu($name): ?Menu
+    public function getMenu($name): ?MenuInterface
     {
         return $this->menus[$name] ?? null;
     }

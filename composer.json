@@ -3,7 +3,8 @@
     "description": "Menu",
     "type": "library",
     "require": {
-        "php": "^7.0"
+        "php": "^7.0",
+        "ext-json": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "8.5"
@@ -16,7 +17,6 @@
         }
     ],
     "minimum-stability": "dev",
-
     "autoload": {
         "psr-4": {
             "Aigletter\\Menu\\": "src"

@@ -4,13 +4,17 @@
 namespace Aigletter\Menu\Render;
 
 
-use Aigletter\Menu\Entities\Menu;
 use Aigletter\Menu\Interfaces\MenuInterface;
 use Aigletter\Menu\Interfaces\MenuRendererInterface;
 
 class TemplateRenderer implements MenuRendererInterface
 {
     protected $template;
+
+    public function __construct($template = null)
+    {
+        $this->template = $template;
+    }
 
     public function setTemplate($template)
     {

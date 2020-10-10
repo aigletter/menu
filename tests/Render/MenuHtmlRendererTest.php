@@ -36,9 +36,9 @@ class MenuHtmlRendererTest extends TestCase
         });
 
         $renderer = new MenuHtmlRenderer();
-        $renderer->setMenuWrapper('div');
-        $renderer->setItemWrapper('span', ['data-item' => 'item']);
-        $renderer->setLinkAttributes(['class' => 'test-link']);
+        $renderer->setMenuWrapperConfig('div');
+        $renderer->setItemElementConfig('span', ['data-item' => 'item']);
+        $renderer->setLinkElementAttributes(['class' => 'test-link']);
 
         $expected = $this->clearHtml('
             <div id="test">

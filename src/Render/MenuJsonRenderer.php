@@ -15,7 +15,7 @@ class MenuJsonRenderer implements MenuRendererInterface
     {
         $array = $this->menuToArray($menu);
 
-        return json_encode($array);
+        return json_encode($array, JSON_UNESCAPED_UNICODE);
     }
 
     protected function menuToArray(MenuInterface $menu)

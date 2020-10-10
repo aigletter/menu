@@ -16,7 +16,7 @@ class MenuHtmlRenderer implements MenuRendererInterface
      * @todo Move to config
      * @var array
      */
-    protected $menuWrapper = [
+    protected $menuWrapperConfig = [
         'tag' => 'ul',
         'attributes' => [],
     ];
@@ -25,7 +25,7 @@ class MenuHtmlRenderer implements MenuRendererInterface
      * @todo Move to config
      * @var array
      */
-    protected $itemWrapper = [
+    protected $itemElementConfig = [
         'tag' => 'li',
         'attributes' => [],
     ];
@@ -34,14 +34,14 @@ class MenuHtmlRenderer implements MenuRendererInterface
      * @todo Move to config
      * @var array
      */
-    protected $submenuWrapper = [
+    protected $submenuWrapperConfig = [
         'tag' => 'ul',
         'attributes' => [
             'class' => 'submenu'
         ],
     ];
 
-    protected $linkAttributes = [];
+    protected $linkElementConfig = [];
 
     /*public function __construct()
     {
@@ -73,9 +73,9 @@ class MenuHtmlRenderer implements MenuRendererInterface
      * @param string $tagName
      * @param array $attributes
      */
-    public function setMenuWrapper(string $tagName, array $attributes = []): void
+    public function setMenuWrapperConfig(string $tagName, array $attributes = []): void
     {
-        $this->menuWrapper = [
+        $this->menuWrapperConfig = [
             'tag' => $tagName,
             'attributes' => $attributes,
         ];
@@ -87,17 +87,17 @@ class MenuHtmlRenderer implements MenuRendererInterface
      * @param string $tagName
      * @param array $attributes
      */
-    public function setItemWrapper(string $tagName, array $attributes = []): void
+    public function setItemElementConfig(string $tagName, array $attributes = []): void
     {
-        $this->itemWrapper = [
+        $this->itemElementConfig = [
             'tag' => $tagName,
             'attributes' => $attributes,
         ];
     }
 
-    public function setSubmenuWrapper(string $tagName, array $attributes = null)
+    public function setSubmenuWrapperConfig(string $tagName, array $attributes = null)
     {
-        $this->submenuWrapper = [
+        $this->submenuWrapperConfig = [
             'tag' => $tagName,
             'attributes' => $attributes,
         ];
@@ -106,9 +106,9 @@ class MenuHtmlRenderer implements MenuRendererInterface
     /**
      * @param array $linkAttributes
      */
-    public function setLinkAttributes(array $linkAttributes): void
+    public function setLinkElementAttributes(array $linkAttributes): void
     {
-        $this->linkAttributes = $linkAttributes;
+        $this->linkElementConfig = $linkAttributes;
     }
 
     public function render(MenuInterface $menu): string
@@ -133,12 +133,12 @@ class MenuHtmlRenderer implements MenuRendererInterface
         if (!$submenu) {
             $defaultAttributes['id'] = $menu->getName();
         } else {
-            $defaultAttributes['class'] = $this->submenuWrapper['attributes']['class'] ?? 'submenu';
+            $defaultAttributes['class'] = $this->submenuWrapperConfig['attributes']['class'] ?? 'submenu';
         }
 
         $menuElement = new HtmlElement(
-            $this->menuWrapper['tag'],
-            array_merge($defaultAttributes, $this->menuWrapper['attributes'])
+            $this->menuWrapperConfig['tag'],
+            array_merge($defaultAttributes, $this->menuWrapperConfig['attributes'])
         );
 
         foreach ($menu->getItems() as $item) {
@@ -159,12 +159,12 @@ class MenuHtmlRenderer implements MenuRendererInterface
             );
         }
         $itemElement = new HtmlElement(
-            $this->itemWrapper['tag'],
-            array_merge($this->itemWrapper['attributes'], $attributes),
+            $this->itemElementConfig['tag'],
+            array_merge($this->itemElementConfig['attributes'], $attributes),
         );
         $linkElement = new HtmlElement('a', array_merge([
             'href' => $item->getUrl()
-        ], $this->linkAttributes));
+        ], $this->linkElementConfig));
         $linkElement->addText($item->getTitle());
         $itemElement->addChild($linkElement);
 
