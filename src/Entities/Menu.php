@@ -30,15 +30,18 @@ class Menu implements MenuInterface
      */
     protected $items = [];
 
+    protected $parent;
+
     /**
      * Menu constructor.
      *
      * @param string $name
      * @param MenuRendererInterface $renderer
      */
-    public function __construct(string $name)
+    public function __construct(string $name, ?MenuItemInterface $parent = null)
     {
         $this->name = $name;
+        $this->parent = $parent;
     }
 
     /**
@@ -78,5 +81,15 @@ class Menu implements MenuInterface
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function isSubmenu()
+    {
+        return isset($this->parent);
+    }
+
+    public function getParent()
+    {
+        return $this->parent;
     }
 }
