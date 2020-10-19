@@ -56,4 +56,24 @@ class MenuBuilderTest extends TestCase
 
         $this->assertCount(2, $menu->getItem('test')->getSubmenu()->getItems());
     }
+
+    public function testSubmenuParent()
+    {
+        $builder = new MenuBuilder();
+        $builder->newMenu('test', function (MenuBuilder $builder) {
+            $builder->addItem('menu_item', 'Menu item', '/menu-item')->addSubmenu(
+                'submenu',
+                function(MenuBuilder $builder) {
+                    $builder->addItem('submenu_item', 'Submenu item', '/submenu-item');
+                }
+            );
+        });
+
+        $menu = $builder->getMenu();
+        $item = $menu->getItem('menu_item');
+
+        $this->assertEquals($item, $item->getSubmenu()->getParent());
+        $this->assertFalse($menu->isSubmenu());
+        $this->assertTrue($item->getSubmenu()->isSubmenu());
+    }
 }

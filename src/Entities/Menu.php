@@ -83,13 +83,18 @@ class Menu implements MenuInterface
         return $this->name;
     }
 
-    public function isSubmenu()
+    public function isSubmenu(): bool
     {
         return isset($this->parent);
     }
 
-    public function getParent()
+    public function getParent(): MenuItemInterface
     {
         return $this->parent;
+    }
+
+    public function setParent(MenuItemInterface $parent)
+    {
+        $this->parent = $parent;
     }
 }

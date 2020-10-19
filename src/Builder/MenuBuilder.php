@@ -180,6 +180,8 @@ class MenuBuilder
             $itemId = array_key_last($this->menu->getItems());
         }
 
+        $submenu->setParent($this->menu->getItem($itemId));
+
         $this->menu->getItem($itemId)->setSubmenu($submenu);
 
         return $this;

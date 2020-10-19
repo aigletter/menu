@@ -18,4 +18,10 @@ interface MenuInterface
     public function getItems(): array;
 
     public function getItem($id): ?MenuItemInterface;
+
+    public function setParent(MenuItemInterface $menuItem);
+
+    public function getParent(): MenuItemInterface;
+
+    public function isSubmenu(): bool;
 }
